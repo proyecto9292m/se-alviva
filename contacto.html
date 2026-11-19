@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto | Señal Viva</title>
+<meta name="description" content="Contacta con Señal Viva. Guía educativa gratuita sobre cultura vial y convivencia en la vía.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0f1f12">
+<link rel="icon" href="img/favicon.ico" type="image/x-icon">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root{
+  --verde-950:#0a1a0d; --verde-900:#0f2413; --verde-800:#163a1c;
+  --verde-700:#1e4d26; --verde-600:#2a6633; --verde-500:#3a8444;
+  --verde-400:#5aa565; --verde-300:#8cc795; --verde-200:#bfe3c4;
+  --verde-100:#e3f2e5; --verde-50:#f2f9f3;
+  --blanco:#ffffff; --texto:#10241a; --texto-suave:#3d5a44;
+  --linea:#bfe3c4; --max:1140px;
+  --trans:0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+  --fuente:'Palatino Linotype','Book Antiqua',Georgia,serif;
+  --fuente-sans:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;
+}
+html, body{ scroll-behavior:smooth; }
+body{ font-family:var(--fuente-sans); color:var(--texto); background:var(--verde-50);
+  line-height:1.85; font-size:16px; -webkit-font-smoothing:antialiased; min-height:100vh; }
+.contenedor{ width:100%; max-width:var(--max); margin:0 auto; padding:0 32px; }
+a{ color:var(--verde-700); text-decoration:none; transition:color var(--trans); }
+a:hover{ color:var(--verde-500); }
+#aceptar, #rechazar{ position:absolute; top:-9999px; }
+.cookie-overlay{ position:fixed; inset:0; background:rgba(10,26,13,0.82);
+  backdrop-filter:blur(6px); z-index:9998; }
+.cookie-banner{ position:fixed; inset:0; display:flex; align-items:center;
+  justify-content:center; padding:24px; z-index:9999; }
+.cookie-modal{ background:var(--blanco); max-width:520px; width:100%;
+  padding:48px 40px; border-radius:4px; box-shadow:0 30px 80px rgba(0,0,0,0.45);
+  text-align:center; border:1px solid var(--verde-300); border-top:4px solid var(--verde-700);
+  animation:entradaCookie 0.55s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes entradaCookie{ from{ transform:scale(0.9) translateY(24px); opacity:0; }
+  to{ transform:scale(1) translateY(0); opacity:1; } }
+.cookie-modal h2{ font-family:var(--fuente); font-size:1.55rem; margin-bottom:12px;
+  color:var(--verde-900); font-weight:700; line-height:1.25; }
+.cookie-modal p{ font-size:0.93rem; color:var(--texto-suave); margin-bottom:30px; line-height:1.7; }
+.cookie-acciones{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.cookie-acciones .boton-cookie{ display:inline-block; padding:14px 34px; border-radius:3px;
+  font-weight:700; font-size:0.88rem; text-decoration:none; transition:all var(--trans);
+  min-width:150px; text-align:center; font-family:var(--fuente-sans); letter-spacing:0.03em; }
+.boton-cookie.aceptar{ background:var(--verde-700); color:var(--blanco); border:1.5px solid var(--verde-700); }
+.boton-cookie.aceptar:hover{ background:var(--verde-500); border-color:var(--verde-500); }
+.boton-cookie.rechazar{ background:transparent; color:var(--verde-800); border:1.5px solid var(--verde-300); }
+.boton-cookie.rechazar:hover{ border-color:var(--verde-600); color:var(--verde-600); }
+.cookie-enlaces{ margin-top:22px; font-size:0.8rem; color:var(--texto-suave); }
+.cookie-enlaces a{ color:var(--verde-700); font-weight:600; }
+.cookie-enlaces a:hover{ text-decoration:underline; }
+#aceptar:target ~ .cookie-overlay, #aceptar:target ~ .cookie-banner,
+#rechazar:target ~ .cookie-overlay, #rechazar:target ~ .cookie-banner{ display:none; }
+.contenido-principal{ display:none; }
+#aceptar:target ~ .contenido-principal, #rechazar:target ~ .contenido-principal{
+  display:block; animation:aparecer 0.5s ease; }
+@keyframes aparecer{ from{ opacity:0; transform:translateY(14px); }
+  to{ opacity:1; transform:translateY(0); } }
+.cabecera{ position:sticky; top:0; z-index:1000; background:rgba(242,249,243,0.95);
+  backdrop-filter:blur(12px); border-bottom:1px solid var(--linea); }
+.barra-nav{ display:flex; align-items:center; justify-content:space-between;
+  padding:20px 32px; max-width:var(--max); margin:0 auto; }
+.logo{ display:flex; align-items:center; gap:14px; font-family:var(--fuente);
+  font-weight:700; font-size:1.3rem; color:var(--verde-900); letter-spacing:-0.01em; }
+.logo-icono{ width:38px; height:38px; border:1.5px solid var(--verde-600);
+  color:var(--verde-700); border-radius:50%; display:grid; place-items:center;
+  font-size:1rem; transition:all var(--trans); }
+.logo:hover .logo-icono{ background:var(--verde-600); color:var(--blanco); }
+.menu{ display:flex; gap:4px; list-style:none; align-items:center; flex-wrap:wrap; }
+.menu a{ color:var(--texto-suave); padding:6px 14px; font-size:0.82rem;
+  font-weight:600; letter-spacing:0.02em; border-radius:4px; position:relative; }
+.menu a::after{ content:''; position:absolute; left:14px; right:14px; bottom:2px;
+  height:1.5px; background:var(--verde-600); transform:scaleX(0); transform-origin:left;
+  transition:transform var(--trans); }
+.menu a:hover{ color:var(--verde-800); }
+.menu a:hover::after{ transform:scaleX(1); }
+.menu a.activo{ color:var(--verde-900); }
+.menu a.activo::after{ transform:scaleX(1); }
+.franja-valores{ background:var(--verde-900); color:var(--verde-200); padding:9px 0;
+  text-align:center; font-size:0.72rem; font-weight:700; letter-spacing:0.18em;
+  text-transform:uppercase; }
+.legal-hero{ background:var(--verde-50); padding:90px 0 60px; border-bottom:1px solid var(--linea); }
+.legal-hero h1{ font-family:var(--fuente); font-size:clamp(2.2rem,5vw,3.4rem);
+  font-weight:700; color:var(--verde-900); letter-spacing:-0.02em; line-height:1.12; margin-bottom:16px; }
+.legal-hero p{ font-size:1.05rem; color:var(--texto-suave); max-width:640px; line-height:1.7; }
+.etiqueta-seccion{ display:inline-flex; align-items:center; gap:10px; font-size:0.7rem;
+  font-weight:800; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--verde-600); margin-bottom:18px; }
+.etiqueta-seccion::before{ content:''; width:28px; height:1px; background:var(--verde-600); }
+.legal-body{ max-width:780px; margin:0 auto; padding:70px 0 90px; }
+.legal-body h2{ font-family:var(--fuente); font-size:clamp(1.4rem,2.6vw,1.9rem);
+  font-weight:700; color:var(--verde-900); margin-top:48px; margin-bottom:14px; line-height:1.25; }
+.legal-body h2:first-child{ margin-top:0; }
+.legal-body p{ margin:0 0 1.1rem; color:var(--texto); font-size:0.98rem; }
+.aviso{ padding:26px 32px; border:1px solid var(--linea);
+  border-left:3px solid var(--verde-600); background:var(--blanco); margin:26px 0; }
+.aviso h3{ margin-bottom:8px; }
+.aviso p{ font-size:0.94rem; }
+.aviso.info{ border-left-color:var(--verde-500); background:var(--verde-50); }
+.aviso.exito{ border-left-color:var(--verde-700); background:var(--verde-100); }
+.dato-legal{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:0; border-top:1px solid var(--linea); margin:24px 0 32px; }
+.dato-legal div{ padding:18px 4px; border-bottom:1px solid var(--linea); }
+.dato-legal dt{ font-size:0.7rem; font-weight:800; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--verde-600); margin-bottom:6px; }
+.dato-legal dd{ margin:0; font-weight:600; color:var(--verde-900); font-size:0.95rem; }
+.form-contacto{ display:grid; gap:18px; margin:24px 0 32px; }
+.campo label{ display:block; font-size:0.78rem; font-weight:800;
+  letter-spacing:0.08em; text-transform:uppercase; color:var(--verde-700); margin-bottom:8px; }
+.campo input, .campo textarea{ width:100%; font-family:var(--fuente-sans);
+  font-size:0.95rem; color:var(--texto); background:var(--blanco);
+  border:1px solid var(--linea); border-radius:3px; padding:12px 14px;
+  transition:border-color var(--trans), box-shadow var(--trans); }
+.campo input:focus, .campo textarea:focus{ outline:none; border-color:var(--verde-500);
+  box-shadow:0 0 0 3px var(--verde-100); }
+.campo textarea{ min-height:130px; resize:vertical; }
+.boton{ display:inline-block; padding:13px 30px; font-weight:700; font-size:0.85rem;
+  letter-spacing:0.04em; border-radius:3px; transition:all var(--trans);
+  font-family:var(--fuente-sans); cursor:pointer;
+  border:1.5px solid var(--verde-800); background:var(--verde-800); color:var(--blanco); }
+.boton:hover{ background:var(--verde-600); border-color:var(--verde-600); }
+.pie{ background:var(--verde-50); color:var(--texto-suave); padding:70px 0 30px;
+  border-top:1px solid var(--linea); }
+.pie-rejilla{ display:grid; grid-template-columns:1.4fr repeat(3,1fr); gap:40px; margin-bottom:44px; }
+.pie h4{ color:var(--verde-900); margin-bottom:16px; font-family:var(--fuente);
+  font-size:1rem; letter-spacing:0.02em; }
+.pie p{ color:var(--texto-suave); font-size:0.9rem; }
+.pie ul{ list-style:none; padding:0; }
+.pie ul li{ margin-bottom:8px; }
+.pie ul a{ color:var(--texto-suave); font-size:0.9rem; }
+.pie ul a:hover{ color:var(--verde-700); }
+.pie-legal{ border-top:1px solid var(--linea); padding-top:26px;
+  font-size:0.8rem; text-align:center; color:var(--texto-suave); }
+.pie-legal a{ color:var(--texto-suave); margin:0 8px; }
+.pie-legal a:hover{ color:var(--verde-700); }
+@media (max-width:900px){ .pie-rejilla{ grid-template-columns:1fr 1fr; }
+  .legal-hero{ padding:60px 0 40px; } .legal-body{ padding:50px 0 60px; } }
+@media (max-width:700px){
+  .barra-nav{ padding:16px 20px; flex-wrap:wrap; gap:12px; }
+  .menu a{ padding:6px 10px; font-size:0.78rem; }
+  .contenedor{ padding:0 20px; }
+  .pie-rejilla{ grid-template-columns:1fr; gap:28px; }
+  .cookie-modal{ padding:36px 24px; }
+  .cookie-acciones{ flex-direction:column; }
+  .cookie-acciones .boton-cookie{ width:100%; min-width:unset; }
+}
+</style>
+</head>
+<body>
+<span id="aceptar"></span>
+<span id="rechazar"></span>
+<div class="cookie-overlay"></div>
+<div class="cookie-banner" role="dialog" aria-modal="true" aria-labelledby="titulo-cookies">
+  <div class="cookie-modal">
+    <h2 id="titulo-cookies">Aviso de cookies</h2>
+    <p>Usamos cookies para mejorar tu experiencia y analizar el tráfico de forma anónima. Al aceptar, nos permites ofrecerte contenido más relevante. También puedes rechazar las cookies no esenciales.</p>
+    <div class="cookie-acciones">
+      <a href="#rechazar" class="boton-cookie rechazar">Rechazar</a>
+      <a href="#aceptar" class="boton-cookie aceptar">Aceptar cookies</a>
+    </div>
+    <div class="cookie-enlaces">
+      <a href="privacidad.html">Política de Privacidad</a> ·
+      <a href="politicas-cookies.html">Política de Cookies</a>
+    </div>
+  </div>
+</div>
+
+<div class="contenido-principal">
+  <header class="cabecera">
+    <nav class="barra-nav" aria-label="Navegación principal">
+      <a href="index.html" class="logo"><span class="logo-icono">🚸</span><span>Señal Viva</span></a>
+      <ul class="menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index.html#cultura">Cultura</a></li>
+        <li><a href="index.html#convivencia">Convivencia</a></li>
+        <li><a href="index.html#actores">Actores</a></li>
+        <li><a href="index.html#compromiso">Compromiso</a></li>
+        <li><a href="contacto.html" class="activo">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="franja-valores">🚸 Cultura vial que se siente · Educación gratuita · Sin pagos · Sin donaciones</div>
+
+  <main>
+    <section class="legal-hero">
+      <div class="contenedor">
+        <span class="etiqueta-seccion">Contacto</span>
+        <h1>Hablemos de cultura vial</h1>
+        <p>¿Tienes una duda, sugerencia o quieres compartir tu experiencia? Escríbenos. Esta guía es educativa y gratuita, y tu opinión ayuda a mejorarla.</p>
+      </div>
+    </section>
+    <section class="contenedor">
+      <div class="legal-body">
+        <h2>Canales de contacto</h2>
+        <dl class="dato-legal">
+          <div><dt>Correo electrónico</dt><dd><a href="mailto:contacto@senalviva.co">contacto@senalviva.co</a></dd></div>
+          <div><dt>Emergencias</dt><dd>123</dd></div>
+          <div><dt>País</dt><dd>Colombia</dd></div>
+        </dl>
+        <div class="aviso info">
+          <h3>📌 Aviso importante</h3>
+          <p><strong>Señal Viva no procesa pagos, no acepta donaciones y no vende productos ni servicios.</strong> Este canal es exclusivamente para consultas educativas y comentarios sobre el contenido de la guía.</p>
+        </div>
+        <h2>Formulario de mensaje</h2>
+        <p>Déjanos tu mensaje y te responderemos lo antes posible. Los campos marcados con * son obligatorios.</p>
+        <form class="form-contacto" action="mailto:contacto@senalviva.co" method="post" enctype="text/plain">
+          <div class="campo"><label for="nombre">Nombre *</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre"></div>
+          <div class="campo"><label for="email">Correo electrónico *</label>
+            <input type="email" id="email" name="email" required placeholder="tu@correo.com"></div>
+          <div class="campo"><label for="asunto">Asunto</label>
+            <input type="text" id="asunto" name="asunto" placeholder="Motivo de tu mensaje"></div>
+          <div class="campo"><label for="mensaje">Mensaje *</label>
+            <textarea id="mensaje" name="mensaje" required placeholder="Escribe aquí tu mensaje..."></textarea></div>
+          <div><button type="submit" class="boton">Enviar mensaje</button></div>
+        </form>
+        <div class="aviso exito">
+          <h3>Transparencia total</h3>
+          <p>Esta guía está <strong>100% financiada y escrita por su autor</strong>. No se aceptan donaciones, no se procesan pagos y todo el contenido es de libre acceso. Si tu mensaje es una propuesta comercial, no podremos atenderla.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie-rejilla">
+        <div><h4>🚸 Señal Viva</h4><p>Guía educativa y gratuita sobre cultura vial y convivencia en la vía.</p></div>
+        <div><h4>Temas</h4><ul>
+          <li><a href="index.html#cultura">Cultura vial</a></li>
+          <li><a href="index.html#convivencia">Convivencia</a></li>
+          <li><a href="index.html#actores">Actores viales</a></li>
+          <li><a href="index.html#compromiso">Compromiso</a></li>
+        </ul></div>
+        <div><h4>Legal</h4><ul>
+          <li><a href="privacidad.html">Privacidad</a></li>
+          <li><a href="politicas-cookies.html">Cookies</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul></div>
+        <div><h4>Contacto</h4><ul>
+          <li>📧 <a href="mailto:contacto@senalviva.co">contacto@senalviva.co</a></li>
+          <li>📞 Emergencias: 123</li>
+        </ul></div>
+      </div>
+      <div class="pie-legal">
+        <p>© 2026 Señal Viva — Todos los derechos reservados.</p>
+        <p><a href="privacidad.html">Privacidad</a> · <a href="politicas-cookies.html">Cookies</a> · <a href="contacto.html">Contacto</a></p>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
