@@ -28,8 +28,7 @@ body{ font-family:var(--fuente-sans); color:var(--texto); background:var(--verde
 a{ color:var(--verde-700); text-decoration:none; transition:color var(--trans); }
 a:hover{ color:var(--verde-500); }
 
-/* COOKIES */
-#aceptar, #rechazar{ position:absolute; top:-9999px; }
+/* ===== COOKIES ===== */
 .cookie-overlay{ position:fixed; inset:0; background:rgba(10,26,13,0.82);
   backdrop-filter:blur(6px); z-index:9998; }
 .cookie-banner{ position:fixed; inset:0; display:flex; align-items:center;
@@ -46,7 +45,8 @@ a:hover{ color:var(--verde-500); }
 .cookie-acciones{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 .cookie-acciones .boton-cookie{ display:inline-block; padding:14px 34px; border-radius:3px;
   font-weight:700; font-size:0.88rem; text-decoration:none; transition:all var(--trans);
-  min-width:150px; text-align:center; font-family:var(--fuente-sans); letter-spacing:0.03em; }
+  min-width:150px; text-align:center; font-family:var(--fuente-sans); letter-spacing:0.03em;
+  cursor:pointer; }
 .boton-cookie.aceptar{ background:var(--verde-700); color:var(--blanco); border:1.5px solid var(--verde-700); }
 .boton-cookie.aceptar:hover{ background:var(--verde-500); border-color:var(--verde-500); }
 .boton-cookie.rechazar{ background:transparent; color:var(--verde-800); border:1.5px solid var(--verde-300); }
@@ -54,15 +54,19 @@ a:hover{ color:var(--verde-500); }
 .cookie-enlaces{ margin-top:22px; font-size:0.8rem; color:var(--texto-suave); }
 .cookie-enlaces a{ color:var(--verde-700); font-weight:600; }
 .cookie-enlaces a:hover{ text-decoration:underline; }
-#aceptar:target ~ .cookie-overlay, #aceptar:target ~ .cookie-banner,
-#rechazar:target ~ .cookie-overlay, #rechazar:target ~ .cookie-banner{ display:none; }
-.contenido-principal{ display:none; }
-#aceptar:target ~ .contenido-principal, #rechazar:target ~ .contenido-principal{
+
+/* ===== LÓGICA DE VISIBILIDAD (controlada por JS) ===== */
+body.cookies-pendientes .cookie-overlay{ display:block; }
+body.cookies-pendientes .cookie-banner{ display:flex; }
+body:not(.cookies-pendientes) .cookie-overlay,
+body:not(.cookies-pendientes) .cookie-banner{ display:none; }
+body.cookies-pendientes .contenido-principal{ display:none; }
+body:not(.cookies-pendientes) .contenido-principal{
   display:block; animation:aparecer 0.5s ease; }
 @keyframes aparecer{ from{ opacity:0; transform:translateY(14px); }
   to{ opacity:1; transform:translateY(0); } }
 
-/* CABECERA */
+/* ===== CABECERA ===== */
 .cabecera{ position:sticky; top:0; z-index:1000; background:rgba(242,249,243,0.95);
   backdrop-filter:blur(12px); border-bottom:1px solid var(--linea); }
 .barra-nav{ display:flex; align-items:center; justify-content:space-between;
@@ -87,7 +91,7 @@ a:hover{ color:var(--verde-500); }
   text-align:center; font-size:0.72rem; font-weight:700; letter-spacing:0.18em;
   text-transform:uppercase; }
 
-/* HERO */
+/* ===== HERO ===== */
 .hero{ background:var(--verde-50); padding:110px 0 90px; position:relative;
   overflow:hidden; border-bottom:1px solid var(--linea); }
 .hero::before{ content:'🚸'; position:absolute; top:50%; right:4%;
@@ -117,7 +121,7 @@ a:hover{ color:var(--verde-500); }
 .boton.secundario{ background:transparent; color:var(--verde-800); border:1.5px solid var(--linea); }
 .boton.secundario:hover{ border-color:var(--verde-600); color:var(--verde-600); }
 
-/* SECCIONES */
+/* ===== SECCIONES ===== */
 .seccion{ padding:90px 0; border-bottom:1px solid var(--linea); }
 .seccion-encabezado{ max-width:700px; margin-bottom:52px; }
 .etiqueta-seccion{ display:inline-flex; align-items:center; gap:10px; font-size:0.7rem;
@@ -130,7 +134,7 @@ h3{ font-size:1.05rem; font-weight:700; color:var(--verde-800); margin-bottom:6p
 p{ margin:0 0 1.1rem; color:var(--texto); }
 p:last-child{ margin-bottom:0; }
 
-/* TARJETAS */
+/* ===== TARJETAS ===== */
 .rejilla{ display:grid; gap:20px; }
 .rejilla-3{ grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
 .rejilla-2{ grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); }
@@ -143,7 +147,7 @@ p:last-child{ margin-bottom:0; }
 .tarjeta:hover .icono{ background:var(--verde-100); border-color:var(--verde-300); }
 .tarjeta p{ font-size:0.92rem; color:var(--texto-suave); }
 
-/* AVISOS */
+/* ===== AVISOS ===== */
 .aviso{ padding:26px 32px; border:1px solid var(--linea);
   border-left:3px solid var(--verde-600); background:var(--blanco); margin:26px 0; }
 .aviso h3{ margin-bottom:8px; }
@@ -151,14 +155,14 @@ p:last-child{ margin-bottom:0; }
 .aviso.exito{ border-left-color:var(--verde-700); background:var(--verde-100); }
 .aviso.info{ border-left-color:var(--verde-500); background:var(--verde-50); }
 
-/* BANDA */
+/* ===== BANDA ===== */
 .banda-final{ background:var(--verde-900); color:var(--verde-200); padding:80px 0; text-align:center; }
 .banda-final h2{ color:var(--blanco); margin-bottom:20px; }
 .banda-final p{ font-size:1.08rem; color:rgba(255,255,255,0.82);
   max-width:740px; margin:0 auto; line-height:1.8; }
 .banda-final strong{ color:var(--verde-200); }
 
-/* PIE */
+/* ===== PIE ===== */
 .pie{ background:var(--verde-50); color:var(--texto-suave);
   padding:70px 0 30px; border-top:1px solid var(--linea); }
 .pie-rejilla{ display:grid; grid-template-columns:1.4fr repeat(3,1fr);
@@ -197,19 +201,17 @@ p:last-child{ margin-bottom:0; }
 }
 </style>
 </head>
-<body>
+<body class="cookies-pendientes">
 
-<span id="aceptar"></span>
-<span id="rechazar"></span>
-
+<!-- ===== VENTANA DE COOKIES AL FRENTE ===== -->
 <div class="cookie-overlay"></div>
 <div class="cookie-banner" role="dialog" aria-modal="true" aria-labelledby="titulo-cookies">
   <div class="cookie-modal">
     <h2 id="titulo-cookies">Aviso de cookies</h2>
     <p>Usamos cookies para mejorar tu experiencia y analizar el tráfico de forma anónima. Al aceptar, nos permites ofrecerte contenido más relevante. También puedes rechazar las cookies no esenciales.</p>
     <div class="cookie-acciones">
-      <a href="#rechazar" class="boton-cookie rechazar">Rechazar</a>
-      <a href="#aceptar" class="boton-cookie aceptar">Aceptar cookies</a>
+      <button type="button" class="boton-cookie rechazar" data-cookie="rechazar">Rechazar</button>
+      <button type="button" class="boton-cookie aceptar" data-cookie="aceptar">Aceptar cookies</button>
     </div>
     <div class="cookie-enlaces">
       <a href="privacidad.html">Política de Privacidad</a> ·
@@ -384,6 +386,25 @@ p:last-child{ margin-bottom:0; }
   </footer>
 
 </div>
+
+<!-- ===== SCRIPT DE COOKIES (sin localStorage: aparece siempre) ===== -->
+<script>
+(function () {
+  var body = document.body;
+  var botones = document.querySelectorAll('.boton-cookie');
+
+  // La clase "cookies-pendientes" ya está en el <body>, así que el modal
+  // se muestra siempre al cargar la página, sin importar visitas previas.
+
+  botones.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      // Solo ocultamos el modal en esta visita. Al recargar o volver
+      // a entrar al enlace, volverá a aparecer.
+      body.classList.remove('cookies-pendientes');
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
