@@ -28,7 +28,6 @@ body{ font-family:var(--fuente-sans); color:var(--texto); background:var(--verde
 a{ color:var(--verde-700); text-decoration:none; transition:color var(--trans); }
 a:hover{ color:var(--verde-500); }
 
-/* ===== COOKIES ===== */
 .cookie-overlay{ position:fixed; inset:0; background:rgba(10,26,13,0.82);
   backdrop-filter:blur(6px); z-index:9998; }
 .cookie-banner{ position:fixed; inset:0; display:flex; align-items:center;
@@ -55,7 +54,6 @@ a:hover{ color:var(--verde-500); }
 .cookie-enlaces a{ color:var(--verde-700); font-weight:600; }
 .cookie-enlaces a:hover{ text-decoration:underline; }
 
-/* ===== LÓGICA DE VISIBILIDAD (controlada por JS) ===== */
 body.cookies-pendientes .cookie-overlay{ display:block; }
 body.cookies-pendientes .cookie-banner{ display:flex; }
 body:not(.cookies-pendientes) .cookie-overlay,
@@ -66,7 +64,6 @@ body:not(.cookies-pendientes) .contenido-principal{
 @keyframes aparecer{ from{ opacity:0; transform:translateY(14px); }
   to{ opacity:1; transform:translateY(0); } }
 
-/* ===== CABECERA ===== */
 .cabecera{ position:sticky; top:0; z-index:1000; background:rgba(242,249,243,0.95);
   backdrop-filter:blur(12px); border-bottom:1px solid var(--linea); }
 .barra-nav{ display:flex; align-items:center; justify-content:space-between;
@@ -91,7 +88,6 @@ body:not(.cookies-pendientes) .contenido-principal{
   text-align:center; font-size:0.72rem; font-weight:700; letter-spacing:0.18em;
   text-transform:uppercase; }
 
-/* ===== HERO ===== */
 .hero{ background:var(--verde-50); padding:110px 0 90px; position:relative;
   overflow:hidden; border-bottom:1px solid var(--linea); }
 .hero::before{ content:'🚸'; position:absolute; top:50%; right:4%;
@@ -121,7 +117,6 @@ body:not(.cookies-pendientes) .contenido-principal{
 .boton.secundario{ background:transparent; color:var(--verde-800); border:1.5px solid var(--linea); }
 .boton.secundario:hover{ border-color:var(--verde-600); color:var(--verde-600); }
 
-/* ===== SECCIONES ===== */
 .seccion{ padding:90px 0; border-bottom:1px solid var(--linea); }
 .seccion-encabezado{ max-width:700px; margin-bottom:52px; }
 .etiqueta-seccion{ display:inline-flex; align-items:center; gap:10px; font-size:0.7rem;
@@ -134,7 +129,6 @@ h3{ font-size:1.05rem; font-weight:700; color:var(--verde-800); margin-bottom:6p
 p{ margin:0 0 1.1rem; color:var(--texto); }
 p:last-child{ margin-bottom:0; }
 
-/* ===== TARJETAS ===== */
 .rejilla{ display:grid; gap:20px; }
 .rejilla-3{ grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
 .rejilla-2{ grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); }
@@ -147,7 +141,6 @@ p:last-child{ margin-bottom:0; }
 .tarjeta:hover .icono{ background:var(--verde-100); border-color:var(--verde-300); }
 .tarjeta p{ font-size:0.92rem; color:var(--texto-suave); }
 
-/* ===== AVISOS ===== */
 .aviso{ padding:26px 32px; border:1px solid var(--linea);
   border-left:3px solid var(--verde-600); background:var(--blanco); margin:26px 0; }
 .aviso h3{ margin-bottom:8px; }
@@ -155,14 +148,12 @@ p:last-child{ margin-bottom:0; }
 .aviso.exito{ border-left-color:var(--verde-700); background:var(--verde-100); }
 .aviso.info{ border-left-color:var(--verde-500); background:var(--verde-50); }
 
-/* ===== BANDA ===== */
 .banda-final{ background:var(--verde-900); color:var(--verde-200); padding:80px 0; text-align:center; }
 .banda-final h2{ color:var(--blanco); margin-bottom:20px; }
 .banda-final p{ font-size:1.08rem; color:rgba(255,255,255,0.82);
   max-width:740px; margin:0 auto; line-height:1.8; }
 .banda-final strong{ color:var(--verde-200); }
 
-/* ===== PIE ===== */
 .pie{ background:var(--verde-50); color:var(--texto-suave);
   padding:70px 0 30px; border-top:1px solid var(--linea); }
 .pie-rejilla{ display:grid; grid-template-columns:1.4fr repeat(3,1fr);
@@ -203,7 +194,6 @@ p:last-child{ margin-bottom:0; }
 </head>
 <body class="cookies-pendientes">
 
-<!-- ===== VENTANA DE COOKIES AL FRENTE ===== -->
 <div class="cookie-overlay"></div>
 <div class="cookie-banner" role="dialog" aria-modal="true" aria-labelledby="titulo-cookies">
   <div class="cookie-modal">
@@ -224,12 +214,12 @@ p:last-child{ margin-bottom:0; }
 
   <header class="cabecera">
     <nav class="barra-nav" aria-label="Navegación principal">
-      <a href="senal-viva.html" class="logo">
+      <a href="index.html" class="logo">
         <span class="logo-icono">🚸</span>
         <span>Señal Viva</span>
       </a>
       <ul class="menu">
-        <li><a href="senal-viva.html" class="activo">Inicio</a></li>
+        <li><a href="index.html" class="activo">Inicio</a></li>
         <li><a href="#cultura">Cultura</a></li>
         <li><a href="#convivencia">Convivencia</a></li>
         <li><a href="#actores">Actores</a></li>
@@ -387,19 +377,12 @@ p:last-child{ margin-bottom:0; }
 
 </div>
 
-<!-- ===== SCRIPT DE COOKIES (sin localStorage: aparece siempre) ===== -->
 <script>
 (function () {
   var body = document.body;
   var botones = document.querySelectorAll('.boton-cookie');
-
-  // La clase "cookies-pendientes" ya está en el <body>, así que el modal
-  // se muestra siempre al cargar la página, sin importar visitas previas.
-
   botones.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      // Solo ocultamos el modal en esta visita. Al recargar o volver
-      // a entrar al enlace, volverá a aparecer.
       body.classList.remove('cookies-pendientes');
     });
   });
