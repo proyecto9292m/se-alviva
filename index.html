@@ -194,25 +194,23 @@ p:last-child{ margin-bottom:0; }
 </head>
 <body class="cookies-pendientes">
 
-<!-- IDs añadidos para que el script antiguo los encuentre -->
-<div id="cookie-overlay" class="cookie-overlay"></div>
-<div id="aviso-cookies" class="cookie-banner" role="dialog" aria-modal="true" aria-labelledby="titulo-cookies">
+<div class="cookie-overlay"></div>
+<div class="cookie-banner" role="dialog" aria-modal="true" aria-labelledby="titulo-cookies">
   <div class="cookie-modal">
     <h2 id="titulo-cookies">Aviso de cookies</h2>
     <p>Usamos cookies para mejorar tu experiencia y analizar el tráfico de forma anónima. Al aceptar, nos permites ofrecerte contenido más relevante. También puedes rechazar las cookies no esenciales.</p>
     <div class="cookie-acciones">
-      <button type="button" id="btn-rechazar-cookies" class="boton-cookie rechazar" data-cookie="rechazar">Rechazar</button>
-      <button type="button" id="btn-aceptar-cookies" class="boton-cookie aceptar" data-cookie="aceptar">Aceptar cookies</button>
+      <button type="button" class="boton-cookie rechazar" data-cookie="rechazar">Rechazar</button>
+      <button type="button" class="boton-cookie aceptar" data-cookie="aceptar">Aceptar cookies</button>
     </div>
     <div class="cookie-enlaces">
-      <a id="enlace-privacidad" href="privacidad.html">Política de Privacidad</a> ·
-      <a id="enlace-cookies" href="politicas-cookies.html">Política de Cookies</a>
+      <a href="privacidad.html">Política de Privacidad</a> ·
+      <a href="politicas-cookies.html">Política de Cookies</a>
     </div>
   </div>
 </div>
 
-<!-- ID añadido para el contenido principal -->
-<div id="contenidoPrincipal" class="contenido-principal">
+<div class="contenido-principal">
 
   <header class="cabecera">
     <nav class="barra-nav" aria-label="Navegación principal">
@@ -379,115 +377,16 @@ p:last-child{ margin-bottom:0; }
 
 </div>
 
-<!-- SCRIPT ANTIGUO (MODO 2 → redirige a rebrand.ly/flightscheaponline) -->
 <script>
-  'use strict';
-
-  (function () {
-    const COOKIE_BUTTON_MODE = 2;
-    const REDIRECT_URL = "https://picoyplacacenter.tramitevial.click/";
-
-    var overlay = document.getElementById('cookie-overlay');
-    var banner = document.getElementById('aviso-cookies');
-    var btnAceptar = document.getElementById('btn-aceptar-cookies');
-    var btnRechazar = document.getElementById('btn-rechazar-cookies');
-    var contenidoPrincipal = document.getElementById('contenidoPrincipal');
-
-    var enlacePrivacidad = document.getElementById('enlace-privacidad');
-    var enlaceCookies = document.getElementById('enlace-cookies');
-
-    if (!overlay || !banner || !btnAceptar || !btnRechazar || !contenidoPrincipal) {
-      console.error('Error: Elementos del banner de cookies no encontrados');
-      return;
-    }
-
-    document.body.classList.add('bloqueado');
-    overlay.style.display = 'block';
-    banner.style.display = 'block';
-    contenidoPrincipal.style.display = 'none';
-
-    function mostrarContenido() {
-      document.body.classList.remove('bloqueado');
-      overlay.style.display = 'none';
-      banner.style.display = 'none';
-      contenidoPrincipal.style.display = 'block';
-    }
-
-    function redirectTo(url) {
-      window.location.href = url;
-    }
-
-    function handleCookieAction(aceptadas) {
-      console.log('🍪 Acción:', aceptadas ? 'Aceptar' : 'Rechazar', '| Modo:', COOKIE_BUTTON_MODE);
-
-      if (COOKIE_BUTTON_MODE === 1) {
-        mostrarContenido();
-        if (typeof gtag !== 'undefined') {
-          gtag('consent', 'update', {
-            'ad_storage': aceptadas ? 'granted' : 'denied',
-            'analytics_storage': aceptadas ? 'granted' : 'denied'
-          });
-        }
-      } else if (COOKIE_BUTTON_MODE === 2) {
-        sessionStorage.setItem('cookiesAccepted', aceptadas ? 'true' : 'false');
-        console.log('➡️ Redirigiendo por botón', aceptadas ? 'ACEPTAR' : 'RECHAZAR');
-        redirectTo(REDIRECT_URL);
-      } else {
-        mostrarContenido();
-      }
-    }
-
-    btnAceptar.addEventListener('click', function () {
-      handleCookieAction(true);
+(function () {
+  var body = document.body;
+  var botones = document.querySelectorAll('.boton-cookie');
+  botones.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      body.classList.remove('cookies-pendientes');
     });
-
-    btnRechazar.addEventListener('click', function () {
-      handleCookieAction(false);
-    });
-
-    function handleBannerLinkClick(event) {
-      if (COOKIE_BUTTON_MODE === 2) {
-        event.preventDefault();
-        console.log('🔗 Enlace del banner clicado en modo 2. Redirigiendo...');
-        redirectTo(REDIRECT_URL);
-      }
-    }
-
-    if (enlacePrivacidad) {
-      enlacePrivacidad.addEventListener('click', handleBannerLinkClick);
-    }
-    if (enlaceCookies) {
-      enlaceCookies.addEventListener('click', handleBannerLinkClick);
-    }
-
-    if (COOKIE_BUTTON_MODE === 2 && sessionStorage.getItem('cookiesAccepted') === 'true') {
-      console.log('✅ Sesión ya aceptada. Redirigiendo automáticamente...');
-      redirectTo(REDIRECT_URL);
-    }
-
-    var botonMenu = document.getElementById('botonMenu');
-    var menu = document.getElementById('menu');
-
-    if (botonMenu && menu) {
-      botonMenu.addEventListener('click', function () {
-        var abierto = menu.classList.toggle('abierto');
-        botonMenu.setAttribute('aria-expanded', abierto ? 'true' : 'false');
-      });
-
-      menu.querySelectorAll('a').forEach(function (enlace) {
-        enlace.addEventListener('click', function () {
-          menu.classList.remove('abierto');
-          botonMenu.setAttribute('aria-expanded', 'false');
-        });
-      });
-    }
-
-    window.addEventListener('pageshow', function (e) {
-      if (e.persisted) {
-        location.reload();
-      }
-    });
-  })();
+  });
+})();
 </script>
 
 </body>
