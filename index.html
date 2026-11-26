@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Señal Viva | Cultura vial que se siente</title>
-<meta name="description" content="Señal Viva es una guía educativa sobre cultura vial y convivencia en la vía. Contenido libre y gratuito.">
+<meta name="description" content="Señal Viva es una guía educativa sobre cultura vial y convivencia en la vía en Colombia, creada y administrada por Marco Javier Vargas Moreno. Contenido libre y gratuito.">
+<meta name="author" content="Marco Javier Vargas Moreno">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0f1f12">
 <link rel="icon" href="img/favicon.ico" type="image/x-icon">
@@ -28,42 +29,57 @@ body{ font-family:var(--fuente-sans); color:var(--texto); background:var(--verde
 a{ color:var(--verde-700); text-decoration:none; transition:color var(--trans); }
 a:hover{ color:var(--verde-500); }
 
-.cookie-overlay{ position:fixed; inset:0; background:rgba(10,26,13,0.82);
-  backdrop-filter:blur(6px); z-index:9998; }
-.cookie-banner{ position:fixed; inset:0; display:flex; align-items:center;
-  justify-content:center; padding:24px; z-index:9999; }
-.cookie-modal{ background:var(--blanco); max-width:520px; width:100%;
-  padding:48px 40px; border-radius:4px; box-shadow:0 30px 80px rgba(0,0,0,0.45);
-  text-align:center; border:1px solid var(--verde-300); border-top:4px solid var(--verde-700);
-  animation:entradaCookie 0.55s cubic-bezier(0.34,1.56,0.64,1); }
-@keyframes entradaCookie{ from{ transform:scale(0.9) translateY(24px); opacity:0; }
-  to{ transform:scale(1) translateY(0); opacity:1; } }
-.cookie-modal h2{ font-family:var(--fuente); font-size:1.55rem; margin-bottom:12px;
-  color:var(--verde-900); font-weight:700; line-height:1.25; }
-.cookie-modal p{ font-size:0.93rem; color:var(--texto-suave); margin-bottom:30px; line-height:1.7; }
-.cookie-acciones{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-.cookie-acciones .boton-cookie{ display:inline-block; padding:14px 34px; border-radius:3px;
-  font-weight:700; font-size:0.88rem; text-decoration:none; transition:all var(--trans);
-  min-width:150px; text-align:center; font-family:var(--fuente-sans); letter-spacing:0.03em;
-  cursor:pointer; }
+/* ===== AVISO DE COOKIES NO BLOQUEANTE ===== */
+#aceptar, #rechazar{ position:absolute; top:-9999px; }
+.cookie-banner{
+  position:fixed; bottom:18px; left:18px; right:18px;
+  display:flex; justify-content:center;
+  z-index:9999; pointer-events:none;
+}
+.cookie-modal{
+  pointer-events:auto;
+  background:var(--blanco);
+  max-width:780px; width:100%;
+  padding:18px 24px;
+  border-radius:4px;
+  box-shadow:0 10px 35px rgba(10,26,13,0.22);
+  border:1px solid var(--verde-400);
+  border-top:4px solid var(--verde-700);
+  display:flex; align-items:center; justify-content:space-between;
+  gap:18px; flex-wrap:wrap;
+}
+.cookie-texto{ flex:1; min-width:240px; text-align:left; }
+.cookie-modal h2{
+  font-family:var(--fuente); font-size:1.05rem; margin-bottom:4px;
+  color:var(--verde-900); font-weight:700; line-height:1.25;
+}
+.cookie-modal p{
+  font-size:0.84rem; color:var(--texto-suave); margin:0; line-height:1.45;
+}
+.cookie-acciones{ display:flex; gap:8px; flex-wrap:wrap; }
+.cookie-acciones .boton-cookie{
+  display:inline-block; padding:9px 18px; border-radius:3px;
+  font-weight:700; font-size:0.85rem; text-decoration:none;
+  transition:all var(--trans); text-align:center;
+  font-family:var(--fuente-sans); letter-spacing:0.03em;
+}
 .boton-cookie.aceptar{ background:var(--verde-700); color:var(--blanco); border:1.5px solid var(--verde-700); }
-.boton-cookie.aceptar:hover{ background:var(--verde-500); border-color:var(--verde-500); }
-.boton-cookie.rechazar{ background:transparent; color:var(--verde-800); border:1.5px solid var(--verde-300); }
-.boton-cookie.rechazar:hover{ border-color:var(--verde-600); color:var(--verde-600); }
-.cookie-enlaces{ margin-top:22px; font-size:0.8rem; color:var(--texto-suave); }
-.cookie-enlaces a{ color:var(--verde-700); font-weight:600; }
+.boton-cookie.aceptar:hover{ background:var(--verde-500); border-color:var(--verde-500); color:var(--blanco); }
+.boton-cookie.rechazar{
+  background:transparent; color:var(--verde-800);
+  border:1.5px solid var(--verde-400);
+}
+.boton-cookie.rechazar:hover{ background:var(--verde-700); border-color:var(--verde-700); color:var(--blanco); }
+.cookie-enlaces{ margin-top:6px; font-size:0.78rem; color:var(--texto-suave); }
+.cookie-enlaces a{ color:var(--verde-700); font-weight:600; text-decoration:none; }
 .cookie-enlaces a:hover{ text-decoration:underline; }
 
-body.cookies-pendientes .cookie-overlay{ display:block; }
-body.cookies-pendientes .cookie-banner{ display:flex; }
-body:not(.cookies-pendientes) .cookie-overlay,
-body:not(.cookies-pendientes) .cookie-banner{ display:none; }
-body.cookies-pendientes .contenido-principal{ display:none; }
-body:not(.cookies-pendientes) .contenido-principal{
-  display:block; animation:aparecer 0.5s ease; }
-@keyframes aparecer{ from{ opacity:0; transform:translateY(14px); }
-  to{ opacity:1; transform:translateY(0); } }
+#aceptar:target ~ .cookie-banner,
+#rechazar:target ~ .cookie-banner{ display:none; }
 
+.contenido-principal{ display:block; }
+
+/* ===== CABECERA ===== */
 .cabecera{ position:sticky; top:0; z-index:1000; background:rgba(242,249,243,0.95);
   backdrop-filter:blur(12px); border-bottom:1px solid var(--linea); }
 .barra-nav{ display:flex; align-items:center; justify-content:space-between;
@@ -113,7 +129,7 @@ body:not(.cookies-pendientes) .contenido-principal{
   letter-spacing:0.04em; border-radius:3px; transition:all var(--trans);
   font-family:var(--fuente-sans); cursor:pointer; }
 .boton.primario{ background:var(--verde-800); color:var(--blanco); border:1.5px solid var(--verde-800); }
-.boton.primario:hover{ background:var(--verde-600); border-color:var(--verde-600); }
+.boton.primario:hover{ background:var(--verde-600); border-color:var(--verde-600); color:var(--blanco); }
 .boton.secundario{ background:transparent; color:var(--verde-800); border:1.5px solid var(--linea); }
 .boton.secundario:hover{ border-color:var(--verde-600); color:var(--verde-600); }
 
@@ -186,26 +202,30 @@ p:last-child{ margin-bottom:0; }
   .pie-rejilla{ grid-template-columns:1fr; gap:28px; }
   .hero-botones{ flex-direction:column; align-items:stretch; }
   .boton{ text-align:center; }
-  .cookie-modal{ padding:36px 24px; }
-  .cookie-acciones{ flex-direction:column; }
+  .cookie-modal{ padding:16px 18px; }
+  .cookie-acciones{ flex-direction:column; width:100%; }
   .cookie-acciones .boton-cookie{ width:100%; min-width:unset; }
 }
 </style>
 </head>
-<body class="cookies-pendientes">
+<body>
 
-<div class="cookie-overlay"></div>
-<div class="cookie-banner" role="dialog" aria-modal="true" aria-labelledby="titulo-cookies">
+<span id="aceptar"></span>
+<span id="rechazar"></span>
+
+<div class="cookie-banner" role="region" aria-label="Aviso de privacidad y cookies">
   <div class="cookie-modal">
-    <h2 id="titulo-cookies">Aviso de cookies</h2>
-    <p>Usamos cookies para mejorar tu experiencia y analizar el tráfico de forma anónima. Al aceptar, nos permites ofrecerte contenido más relevante. También puedes rechazar las cookies no esenciales.</p>
-    <div class="cookie-acciones">
-      <button type="button" class="boton-cookie rechazar" data-cookie="rechazar">Rechazar</button>
-      <button type="button" class="boton-cookie aceptar" data-cookie="aceptar">Aceptar cookies</button>
+    <div class="cookie-texto">
+      <h2 id="titulo-cookies">Aviso de privacidad</h2>
+      <p>Guía educativa de <strong>Marco Javier Vargas Moreno</strong>. No se instalan cookies de seguimiento ni publicidad; solo se usa la navegación de esta página.</p>
+      <div class="cookie-enlaces">
+        <a href="privacidad.html">Política de Privacidad</a> ·
+        <a href="politicas-cookies.html">Política de Cookies</a>
+      </div>
     </div>
-    <div class="cookie-enlaces">
-      <a href="privacidad.html">Política de Privacidad</a> ·
-      <a href="politicas-cookies.html">Política de Cookies</a>
+    <div class="cookie-acciones">
+      <a href="#rechazar" class="boton-cookie rechazar">Rechazar</a>
+      <a href="#aceptar" class="boton-cookie aceptar">Aceptar</a>
     </div>
   </div>
 </div>
@@ -224,6 +244,7 @@ p:last-child{ margin-bottom:0; }
         <li><a href="#convivencia">Convivencia</a></li>
         <li><a href="#actores">Actores</a></li>
         <li><a href="#compromiso">Compromiso</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
       </ul>
     </nav>
   </header>
@@ -236,7 +257,7 @@ p:last-child{ margin-bottom:0; }
         <div class="hero-grid">
           <div>
             <h1>Cada señal es una <em>conversación</em> con la vía</h1>
-            <p class="subtitulo">Señal Viva es una guía educativa sobre cultura vial y convivencia. Aprende a leer la vía como un lenguaje: gestos, normas y respeto que salvan vidas.</p>
+            <p class="subtitulo">Señal Viva es una guía educativa sobre cultura vial y convivencia en Colombia, administrada por <strong>Marco Javier Vargas Moreno</strong>. Aprende a leer la vía como un lenguaje: gestos, normas y respeto que salvan vidas.</p>
             <div class="hero-botones">
               <a href="#cultura" class="boton primario">Explorar la guía</a>
               <a href="#actores" class="boton secundario">Ver actores viales</a>
@@ -261,6 +282,10 @@ p:last-child{ margin-bottom:0; }
           <span class="etiqueta-seccion">Sección 1 · Cultura vial</span>
           <h2>La vía habla, ¿la escuchas?</h2>
           <p>La cultura vial es el conjunto de hábitos, gestos y actitudes con los que nos relacionamos en el espacio público. No es solo cumplir normas: es entender que cada decisión afecta a otros.</p>
+        </div>
+        <div class="aviso exito">
+          <h3>📌 Aviso importante de titularidad y financiación</h3>
+          <p>Esta guía educativa es operada, financiada y escrita directamente por su titular, <strong>Marco Javier Vargas Moreno</strong>, como persona natural. <strong>No se aceptan donaciones. No se procesan pagos. No se vende ningún producto ni servicio.</strong> Todo el contenido es de <strong>libre acceso</strong>.</p>
         </div>
         <div class="rejilla rejilla-3">
           <div class="tarjeta"><span class="icono">👀</span><h3>Mirar</h3><p>Observar el entorno antes de actuar: cruces, señales, otros actores.</p></div>
@@ -331,7 +356,7 @@ p:last-child{ margin-bottom:0; }
     <section class="banda-final">
       <div class="contenedor" style="max-width:820px;">
         <h2>Compromiso de transparencia</h2>
-        <p><strong>Señal Viva</strong> es una guía educativa <strong>100% financiada y escrita por su autor</strong>. No se aceptan donaciones, no se procesan pagos y no se vende ningún producto o servicio. Todo el contenido es de <strong>libre acceso</strong>.</p>
+        <p><strong>Señal Viva</strong> es una guía educativa <strong>100% financiada y escrita por su titular, Marco Javier Vargas Moreno</strong>. No se aceptan donaciones, no se procesan pagos y no se vende ningún producto o servicio. Todo el contenido es de <strong>libre acceso</strong>.</p>
       </div>
     </section>
   </main>
@@ -341,7 +366,7 @@ p:last-child{ margin-bottom:0; }
       <div class="pie-rejilla">
         <div>
           <h4>🚸 Señal Viva</h4>
-          <p>Guía educativa y gratuita sobre cultura vial y convivencia en la vía.</p>
+          <p>Guía educativa y gratuita sobre cultura vial y convivencia en la vía, operada por <strong>Marco Javier Vargas Moreno</strong>.</p>
         </div>
         <div>
           <h4>Temas</h4>
@@ -355,39 +380,28 @@ p:last-child{ margin-bottom:0; }
         <div>
           <h4>Legal</h4>
           <ul>
-            <li><a href="privacidad.html">Privacidad</a></li>
-            <li><a href="politicas-cookies.html">Cookies</a></li>
+            <li><a href="privacidad.html">Política de Privacidad</a></li>
+            <li><a href="politicas-cookies.html">Política de Cookies</a></li>
             <li><a href="contacto.html">Contacto</a></li>
           </ul>
         </div>
         <div>
           <h4>Contacto</h4>
           <ul>
-            <li>📧 <a href="mailto:contacto@senalviva.co">contacto@senalviva.co</a></li>
+            <li>Titular: Marco Javier Vargas Moreno</li>
+            <li>📧 <a href="mailto:realesdaniel89@gmail.com">realesdaniel89@gmail.com</a></li>
             <li>📞 Emergencias: 123</li>
           </ul>
         </div>
       </div>
       <div class="pie-legal">
-        <p>© 2026 Señal Viva — Todos los derechos reservados.</p>
+        <p>© 2026 Señal Viva — Proyecto educativo de Marco Javier Vargas Moreno. Todos los derechos reservados.</p>
         <p><a href="privacidad.html">Privacidad</a> · <a href="politicas-cookies.html">Cookies</a> · <a href="contacto.html">Contacto</a></p>
       </div>
     </div>
   </footer>
 
 </div>
-
-<script>
-(function () {
-  var body = document.body;
-  var botones = document.querySelectorAll('.boton-cookie');
-  botones.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      body.classList.remove('cookies-pendientes');
-    });
-  });
-})();
-</script>
 
 </body>
 </html>
